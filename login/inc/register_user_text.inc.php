@@ -1,29 +1,24 @@
 <?php
+require_once('lib/CheckUsername.php');
 require_once('lib/CheckPassword.php');
-	
-	$usernameMinChars = 6;
-	$errors = array();
-	
-	//checking the username
-	if (strlen($username) < $usernameMinChars) {
-		$errors[] = 'Username must be at least 6 characters long';
-	} else if (preg_match('/\s/', $username)) {
-		$errors[] = 'Username should not contain spaces.';
-	}
 
-	$checkPassword = new CheckPassword($password, 10);
-	$checkPassed = $checkPassword->check();
-	if($checkPassed) {
+	$checkPassword = new CheckPassword($password, $repassword, 10);
+	$checkUsername = new CheckUsername($username);
+
+	$passwordOK = $checkPassword->check();
+	$usernameOK = $checkUsername->check();
+
+	if($passwordOK && $usernameOK) {
 		$results = array('password OK');
 	} else {
-		$results = array_merge($errors, $checkPassword->getErrors());
+		$results = array_merge($checkUsername->getErrors(), $checkPassword->getErrors());
 	}
-	if($password != $repassword) {
-		$errors[] = 'Your passwords do not match';
-	}
-	if ($errors) {
-		$results = $errors;
-	} else {
-		$results = array('All OK');
-	}
+	// if($password != $repassword) {
+	// 	$errors[] = 'Your passwords do not match';
+	// }
+	// if ($errors) {
+	// 	$results = $errors;
+	// } else {
+	// 	$results = array('All OK');
+	// }
 ?>
