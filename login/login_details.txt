@@ -1,2 +1,0 @@
-david,codeslave
-admin,alisa

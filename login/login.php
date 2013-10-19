@@ -2,9 +2,9 @@
 $error = '';
 if(isset($_POST['login'])) {
 	session_start();
-	$username = $_POST['username'];
-	$password = $_POST['password'];
-	$userlist = 'login_details.txt';
+	$username = trim( $_POST['username'] );
+	$password = sha1 ($username.$_POST['password'] );
+	$userlist = 'encrypted.txt';
 	$redirect = 'menu.php';
 	require_once('inc/authenticate.inc.php');
 }
